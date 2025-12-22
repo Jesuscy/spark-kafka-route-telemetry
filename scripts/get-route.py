@@ -3,18 +3,13 @@ from dotenv import load_dotenv
 import requests
 import json
 
-latitud_origen = 37.9439891
-longitud_origen = -1.1636353
-
-latitud_destino = 39.4561165
-longitud_destino = -0.3545661
 
 load_dotenv()
 
 def route_request(lat_o,long_o,lat_d,long_d):
 
     url = (f"{os.getenv("API_URL")}"
-        f"{latitud_origen},{longitud_origen};{latitud_destino},{longitud_destino}"
+        f"{lat_o},{long_o};{lat_d},{long_d}"
         f"?overview=full&geometries=geojson"
     )
 
