@@ -1,4 +1,5 @@
 import Route
+from datetime import datetime
 
 class Vehicle:
 
@@ -16,7 +17,7 @@ class Vehicle:
         return route_data
     
     
-    def simulate_route(self, route_data, paso=1, delay=0.5):
+    def simulate_route(self, route_data, paso=4):
         posiciones = []
         coordinates = route_data["routes"][0]["geometry"]["coordinates"]
         for i in range(0, len(coordinates), paso):
@@ -25,7 +26,9 @@ class Vehicle:
                 "vehicle_id": self.id,
                 "model": self.model,
                 "latitude": lat,
-                "longitude": lon
+                "longitude": lon,
+                "data_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "progreso": f"{(i / len(coordinates)) * 100}%"
             })
         
         return posiciones
