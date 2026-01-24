@@ -32,7 +32,7 @@ class KafkaRouteProducer:
         for position in generator:
             self.producer.produce(
                 topic=self.topic,
-                key=str(position["progreso"]).encode("utf-8"),
+                key=str(position["progress"]).encode("utf-8"),
                 value=json.dumps(position).encode("utf-8"),
                 callback=self.delivery_report
             )

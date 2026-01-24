@@ -10,27 +10,35 @@ class Vehicle:
     
     def get_route(self):
 
-        route_data = self.route.Route.route_request(self.route.start_lat,
-                                                    self.route.start_lon, 
-                                                    self.route.end_lat,
-                                                    self.route.end_lon)
+        route_data = self.route.route_request()
         return route_data
     
     
-    def simulate_route(self, route_data, paso=4):
-        posiciones = []
+    def simulate_route(self, route_data, jump=4):
+        positions = []
         coordinates = route_data["routes"][0]["geometry"]["coordinates"]
-        for i in range(0, len(coordinates), paso):
+
+        total_steps = (len(coordinates) + jump - 1) // jump
+        last_progress = None
+
+        for step, i in enumerate(range(0, len(coordinates), jump)):
+
             lon, lat = coordinates[i]
-            posiciones.append({
-                "vehicle_id": self.id,
-                "model": self.model,
-                "latitude": lat,
-                "longitude": lon,
-                "data_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "progreso": f"{(i / len(coordinates)) * 100}%"
-            })
+            progress = int((step / (total_steps - 1)) * 100)
+
+            if progress != last_progress:
+
+                positions.append({
+                    "vehicle_id": self.id,
+                    "model": self.model,
+                    "latitude": lat,
+                    "longitude": lon,
+                    "data_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "progress": f"{progress}%"
+                })
+
+                last_progress = progress
         
-        return posiciones
+        return positions
 
     

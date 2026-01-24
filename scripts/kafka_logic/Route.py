@@ -14,10 +14,10 @@ class Route:
         self.end_lat = end_lat
         self.end_lon = end_lon
 
-    def route_request(start_lat,start_lon,end_lat,end_lon):
+    def route_request(self):
 
         url = (f"{os.getenv("API_URL")}"
-            f"{start_lat},{start_lon};{end_lat},{end_lon}"
+            f"{self.start_lat},{self.start_lon};{self.end_lat},{self.end_lon}"
             f"?overview=full&geometries=geojson"
         )
 
@@ -26,14 +26,14 @@ class Route:
             # if response.status_code != 200:
             #     raise Exception(f"Error en la llamada: {response.status_code}")
             # data = response.json()
-            # return json_respuesta
+            # return json_response
 
 
-            with open(f"response_example.json","r") as respuesta:
-                respuesta = respuesta.read()
-                json_respuesta = json.loads(respuesta)
+            with open(f"response_example.json","r") as response:
+                response = response.read()
+                json_response = json.loads(response)
                 
-            return json_respuesta
+            return json_response
 
         except Exception as e:
             print(f"Error obteniendo ruta: {e}")
