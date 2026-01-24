@@ -1,41 +1,41 @@
 from confluent_kafka import Producer
 import json
-from scripts.producer import delivery_report
 
-class KafkaProducer:
 
-    def __init__(self, id, bootstrap_servers, topic, config_extra=None):
-        self.id = id
-        self.bootstrap_servers = bootstrap_servers
+class KafkaRouteProducer:
+
+    def __init__(self, producer_id, bootstrap_servers, topic, config_extra=None):
+        self.producer_id = producer_id
         self.topic = topic
-        self.config_extra = config_extra or {}
-        self.producer = KafkaProducer(
-            bootstrap_servers=self.bootstrap_servers,
-            value_serializer=lambda v: json.dumps(v).encode('utf-8'),
-            **self.config_extra
-        )
+
+        config = {
+            "bootstrap.servers": bootstrap_servers,
+            "client.id": producer_id
+        }
+
+        if config_extra:
+            config.update(config_extra)
+
+        self.producer = Producer(config)
 
     def delivery_report(self, err, msg):
         if err is not None:
             print(f"ERROR entregando mensaje: {err}")
         else:
-            print(f"Enviado a {msg.topic()} [partition {msg.partition()}], offset {msg.offset()}")
+            print(
+                f"Enviado a {msg.topic()} "
+                f"[partition {msg.partition()}], offset {msg.offset()}"
+            )
 
+    def send_positions_to_kafka(self, generator):
 
-    def create_producer(self, bootstrap_servers):
-        config = {"bootstrap.servers": bootstrap_servers}
-        return Producer(config)
-
-
-    def send_positions_to_kafka(self,generator):
-    
         for position in generator:
             self.producer.produce(
-                self.topic,
-                key=str(position["progreso"]), 
-                value=json.dumps(position),
+                topic=self.topic,
+                key=str(position["progreso"]).encode("utf-8"),
+                value=json.dumps(position).encode("utf-8"),
                 callback=self.delivery_report
             )
             self.producer.poll(0)
-        
+
         self.producer.flush()
