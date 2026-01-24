@@ -22,7 +22,7 @@ class KafkaProducer:
             print(f"Enviado a {msg.topic()} [partition {msg.partition()}], offset {msg.offset()}")
 
 
-    def create_producer(self, bootstrap_servers="localhost:9092"):
+    def create_producer(self, bootstrap_servers):
         config = {"bootstrap.servers": bootstrap_servers}
         return Producer(config)
 
