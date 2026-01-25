@@ -2,6 +2,8 @@ services:
   postgresql:
     image: postgres:14
     hostname: postgresql
+    networks:
+     - infra_net
     volumes:
       - pg_data:/var/lib/postgresql/data
     environment:
@@ -11,6 +13,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
   conduktor-console:
     image: conduktor/conduktor-console:1.36.2
+    networks:
+      - infra_net
     ports:
       - "8080:8080"
     volumes:
@@ -26,6 +30,9 @@ services:
     image: confluentinc/cp-kafka:8.0.0
     hostname: kafka1
     container_name: kafka1
+    networks:
+     - infra_net
+
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -51,3 +58,7 @@ services:
 volumes:
   pg_data: {}
   conduktor_data: {}
+  
+networks:
+  infra_net:
+    external: true
