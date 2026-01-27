@@ -6,10 +6,12 @@ services:
      - infra_net
     volumes:
       - pg_data:/var/lib/postgresql/data
+    env_file:
+      - .env.kafka_infra
     environment:
       POSTGRES_DB: "conduktor-console"
-      POSTGRES_USER: "conduktor"
-      POSTGRES_PASSWORD: "some_password"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
   conduktor-console:
     image: conduktor/conduktor-console:1.36.2
@@ -19,8 +21,10 @@ services:
       - "8080:8080"
     volumes:
       - conduktor_data:/var/conduktor
+    env_file:
+      - .env.kafka_infra
     environment:
-      CDK_DATABASE_URL: "postgresql://conduktor:some_password@postgresql:5432/conduktor-console"
+      CDK_DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/conduktor-console"
       CDK_CLUSTERS_0_ID: "default"
       CDK_CLUSTERS_0_NAME: "My Local Kafka Cluster"
       CDK_CLUSTERS_0_COLOR: "#0013E7"
@@ -32,7 +36,8 @@ services:
     container_name: kafka1
     networks:
      - infra_net
-
+    env_file:
+        - .env.kafka_infra
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -40,8 +45,8 @@ services:
       - "9099:9099" # Internal inter-broker communication
     environment:
       environment:
-      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
-      KAFKA_NODE_ID: 1
+      CLUSTER_ID: ${CLUSTER_ID}
+      KAFKA_NODE_ID: ${KAFKA_NODE_ID}
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka1:9099"
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:19092,EXTERNAL://0.0.0.0:9092,DOCKER://0.0.0.0:29092,CONTROLLER://0.0.0.0:9099
@@ -58,7 +63,7 @@ services:
 volumes:
   pg_data: {}
   conduktor_data: {}
-  
+
 networks:
   infra_net:
     external: true

@@ -135,6 +135,9 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+/infra/kafka/.env.kafka_infra
+
+/infra/spark/.env.spark_infra
 .env
 .envrc
 .venv
