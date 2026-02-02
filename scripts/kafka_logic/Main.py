@@ -36,7 +36,7 @@ def main():
         for vehicle in vehicles:
             executor.submit(send_drive_data, vehicle)
 
-    kafka_producer.producer.flush()
+    kafka_producer.flush()
 
 
 

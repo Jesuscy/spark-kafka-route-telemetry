@@ -11,7 +11,10 @@ class KafkaRouteProducer:
 
         config = {
             "bootstrap.servers": bootstrap_servers,
-            "client.id": producer_id
+            "client.id": producer_id,
+            "linger.ms": 5,         
+            "batch.size": 32768,    
+            "acks": "1"             
         }
 
         if config_extra:
@@ -37,7 +40,9 @@ class KafkaRouteProducer:
                 value=json.dumps(position).encode("utf-8"),
                 callback=self.delivery_report
             )
-            self.producer.poll(0)
+            self.producer.poll(0.1)
             time.sleep(1)
+        
 
+    def flush(self):
         self.producer.flush()
