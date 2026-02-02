@@ -20,4 +20,5 @@ df = spark \
 
 
 work_df = df.select(col("key").cast("string"), col("value.*").cast("string"))
+work_df.show()
 

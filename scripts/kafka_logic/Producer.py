@@ -1,5 +1,6 @@
 from confluent_kafka import Producer
 import json
+import time
 
 
 class KafkaRouteProducer:
@@ -37,5 +38,6 @@ class KafkaRouteProducer:
                 callback=self.delivery_report
             )
             self.producer.poll(0)
+            time.sleep(1)
 
         self.producer.flush()
