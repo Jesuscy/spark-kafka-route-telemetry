@@ -6,8 +6,7 @@ services:
      - infra_net
     volumes:
       - pg_data:/var/lib/postgresql/data
-    env_file:
-      - .env.kafka_infra
+    
     environment:
       POSTGRES_DB: "conduktor-console"
       POSTGRES_USER: ${POSTGRES_USER}
@@ -21,8 +20,7 @@ services:
       - "8080:8080"
     volumes:
       - conduktor_data:/var/conduktor
-    env_file:
-      - .env.kafka_infra
+   
     environment:
       CDK_DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/conduktor-console"
       CDK_CLUSTERS_0_ID: "default"
@@ -36,8 +34,7 @@ services:
     container_name: kafka1
     networks:
      - infra_net
-    env_file:
-        - .env.kafka_infra
+
     ports:
       - "9092:9092"
       - "29092:29092"
