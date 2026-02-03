@@ -1,5 +1,6 @@
 # Proyecto de Simulación de Viajes y Procesamiento de Datos en Streaming con Kafka y Spark
 [ESTE PROYECTO ESTÁ EN DESARROLLO, LO ÚLTIMO QUE TENGO PENSADO IMPLEMENTAR ES LA WEB APP.]
+
 Este proyecto está enfocado en la **generación de datos simulados** y su **procesamiento en streaming** utilizando **Apache Kafka** y **Apache Spark**.  
 La idea principal es contar con una **Web App** que permita la creación de vehículos y la definición de viajes por parte del usuario.
 
