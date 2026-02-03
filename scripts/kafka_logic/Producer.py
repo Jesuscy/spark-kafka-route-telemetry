@@ -1,4 +1,5 @@
 from confluent_kafka import Producer
+from Trip import Trip
 import json
 import time
 
@@ -31,12 +32,14 @@ class KafkaRouteProducer:
                 f"[partition {msg.partition()}], offset {msg.offset()}"
             )
 
-    def send_positions_to_kafka(self, generator):
+    def send_positions_to_kafka(self, trip: Trip):
+
+        generator = trip.simulate_route(trip.get_route_data())
 
         for position in generator:
             self.producer.produce(
                 topic=self.topic,
-                key=str(position["progress"]).encode("utf-8"),
+                key=trip.trip_id,
                 value=json.dumps(position).encode("utf-8"),
                 callback=self.delivery_report
             )
