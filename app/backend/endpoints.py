@@ -6,16 +6,22 @@ import json
 
 app = FastAPI()
 
+#Aquí la api esta apuntando a rutas que llaman a las funciones, buttons en el frontend deben llamar a estas rutas.
+
 @app.on_event("startup")
 def startup_event():
     simulation.init_producer(bootstrap_servers="kafka:9092")
 
+@app.on_event("shutdown")
+def shutdown_event():
+    simulation.shutdown_producer()
+
 @app.post("/vehicles")
-def api_create_vehicle(vehicle_id: str, model: str):
-    return simulation.create_vehicle(vehicle_id, model)
+def api_create_vehicles():
+    return simulation.create_vehicles()
 
 @app.post("/trips")
-def api_create_trip(trip_id: str, vehicle_id: str, dest_name: str,
+def api_create_trip(trip_id: str, dest_name: str,
                     start_lat: float, start_lon: float, end_lat: float, end_lon: float):
     return simulation.create_trip(trip_id, dest_name, start_lat, start_lon, end_lat, end_lon)
 

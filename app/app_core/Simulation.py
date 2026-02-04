@@ -27,13 +27,19 @@ def inint_producer():
     global kafka_producer
     kafka_producer = KafkaRouteProducer(producer_id="trip_data_producer",bootstrap_servers=bootstrap_servers,topic=topic)
 
-#Creo 50 coches inciales libres.
-def create_vehicles(vehicle_id,model):
-    vehicle = Vehicle(id=vehicle_id, model=model, state=False)
-    free_vehicles.append(vehicle)
-    return vehicle
+#Detiene el producer
+def shutdown_producer():
+    kafka_producer.flush()
 
+#Creo 50 coches libres.
+def create_vehicles():
+    vehicle_names = ["Opel Corsa","Ford Fiesta","Toyota Corolla","Honda Civic","Mercedes C220","BMW Serie 3","Audi A4","Volkswagen Golf","Renault Clio","Peugeot 208"]
+    for i in range(50):
+        vehicle = Vehicle(id=f"vehicle_{i}", model=choice(vehicle_names), state=False)
+        free_vehicles.append(vehicle)
     
+
+#Crea un viaje, asigna un vehículo libre y lo marca como ocupado.
 def create_trip(id,dest_name,start_lat,start_lon,end_lat,end_lon):
     if not free_vehicles:
         print("No hay vehículos libres disponibles.")
