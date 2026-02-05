@@ -5,7 +5,7 @@ services:
     container_name: da-spark-master
     build: .
     image: da-spark-image
-    entrypoint: ["./entrypoint.sh", "master"]
+    entrypoint: ["./entrypoint.sh", "streaming"]
     networks:
       - infra_net
     healthcheck:
