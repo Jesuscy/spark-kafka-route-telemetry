@@ -3,7 +3,10 @@ version: "3.8"
 services:
   spark-master:
     container_name: da-spark-master
-    build: .
+    build:
+      context: ../..
+      dockerfile: infra/spark/Dockerfile
+      
     image: da-spark-image
     entrypoint: ["./entrypoint.sh", "streaming"]
     networks:
