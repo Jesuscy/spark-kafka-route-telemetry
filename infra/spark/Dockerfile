@@ -4,15 +4,15 @@ ARG SPARK_VERSION=3.4.0
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-      sudo \
-      curl \
-      vim \
-      unzip \
-      rsync \
-      openjdk-11-jdk \
-      build-essential \
-      software-properties-common \
-      ssh && \
+    sudo \
+    curl \
+    vim \
+    unzip \
+    rsync \
+    openjdk-11-jdk \
+    build-essential \
+    software-properties-common \
+    ssh && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*do
 
@@ -23,8 +23,8 @@ RUN mkdir -p ${HADOOP_HOME} && mkdir -p ${SPARK_HOME}
 WORKDIR ${SPARK_HOME}
 
 RUN curl https://dlcdn.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz -o spark-3.3.1-bin-hadoop3.tgz \
- && tar xvzf spark-3.3.1-bin-hadoop3.tgz --directory /opt/spark --strip-components 1 \
- && rm -rf spark-3.3.1-bin-hadoop3.tgz
+    && tar xvzf spark-3.3.1-bin-hadoop3.tgz --directory /opt/spark --strip-components 1 \
+    && rm -rf spark-3.3.1-bin-hadoop3.tgz
 
 COPY requirements/requirements.txt . 
 RUN pip3 install requirements.txt
@@ -43,6 +43,9 @@ RUN chmod u+x /opt/spark/sbin/* && \
 
 ENV PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
 
-COPY entrypoint.sh .
+COPY infra/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+COPY app/app_data/landing_data.py /opt/spark/jobs/streaming_job.py
 
 ENTRYPOINT ["./entrypoint.sh"]
