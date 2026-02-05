@@ -10,7 +10,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 def startup_event():
-    simulation.init_producer(bootstrap_servers="kafka:9092")
+    simulation.init_producer()
 
 @app.on_event("shutdown")
 def shutdown_event():
