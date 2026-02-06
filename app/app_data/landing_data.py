@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 
 from app_utils.azure_uploader import upload_to_datalake
 
+#Script de procesamiento de datos con Spark, este es el que se incluye en el contenedor de Spark en /opt/spark/jobs/ .
 
 load_dotenv('.env')
 
@@ -62,4 +63,5 @@ def streaming_writing():
   query.awaitTermination()
 
  
+streaming_writing()
 

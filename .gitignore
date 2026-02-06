@@ -137,7 +137,8 @@ celerybeat.pid
 # Environments
 /infra/kafka/.env.kafka_infra
 
-/infra/spark/.env.spark_infra
+/infra/spark/.env.spark
+
 .env
 .envrc
 .venv

@@ -1,14 +1,16 @@
 version: "3.8"
-
+# Docker Compose configuration for Spark Master, Worker, and History Server
 services:
   spark-master:
     container_name: da-spark-master
     build:
+      #Defino como contexto la raiz del proyecto para poder incluir dentro del Dockerfile los archivos de la carpeta app, que es donde están los scripts de Spark.
       context: ../..
       dockerfile: infra/spark/Dockerfile
       
     image: da-spark-image
-    entrypoint: ["./entrypoint.sh", "streaming"]
+      #Paso el entrypoint.sh con el comando levantar el master.
+    entrypoint: ["./entrypoint.sh", "master"]
     networks:
       - infra_net
     healthcheck:
@@ -29,6 +31,7 @@ services:
   spark-history-server:
     container_name: da-spark-history
     image: da-spark-image
+      #Paso el entrypoint.sh con el comando levantar el history server.
     entrypoint: ["./entrypoint.sh", "history"]
     depends_on:
       - spark-master
@@ -43,6 +46,7 @@ services:
 
   spark-worker:
     image: da-spark-image
+      #Paso el entrypoint.sh con el comando levantar el worker.
     entrypoint: ["./entrypoint.sh", "worker"]
     depends_on:
       - spark-master

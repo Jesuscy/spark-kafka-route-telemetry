@@ -13,11 +13,3 @@ then
 elif [ "$SPARK_WORKLOAD" == "history" ]
 then
   start-history-server.sh
-  elif [ "$SPARK_WORKLOAD" == "streaming" ];
-then
-  echo "Iniciando job de streaming en Spark..."
-  /opt/spark/bin/spark-submit \
-    --master spark://spark-master:7077 \
-    --deploy-mode client \
-    /opt/spark/jobs/streaming_job.py
-fi

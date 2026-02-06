@@ -7,6 +7,7 @@ from azure.storage.filedatalake import DataLakeFileClient
 from azure.core.exceptions import AzureError
 from dotenv import load_dotenv
 
+#Esta es una utilidad para subir archivos al datalake de Azure, ahora está en desuso.
 
 load_dotenv()
 
