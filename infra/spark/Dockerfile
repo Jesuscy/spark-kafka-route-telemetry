@@ -22,12 +22,19 @@ ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
 RUN mkdir -p ${HADOOP_HOME} && mkdir -p ${SPARK_HOME}
 WORKDIR ${SPARK_HOME}
 
-RUN curl https://dlcdn.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz -o spark-3.3.1-bin-hadoop3.tgz \
-    && tar xvzf spark-3.3.1-bin-hadoop3.tgz --directory /opt/spark --strip-components 1 \
-    && rm -rf spark-3.3.1-bin-hadoop3.tgz
+RUN curl -fL https://archive.apache.org/dist/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz \
+    -o spark.tgz \
+ && tar xvzf spark.tgz --directory /opt/spark --strip-components 1 \
+ && rm -f spark.tgz
+
+
+RUN curl -fL https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.3.1/spark-sql-kafka-0-10_2.12-3.3.1.jar \
+    -o $SPARK_HOME/jars/spark-sql-kafka-0-10_2.12-3.3.1.jar
+
+
 
 COPY infra/spark/requirements.txt . 
-RUN pip3 install requirements.txt
+RUN pip3 install -r requirements.txt
 
 ENV PATH="/opt/spark/sbin:/opt/spark/bin:${PATH}"
 ENV SPARK_HOME="/opt/spark"
@@ -41,11 +48,13 @@ COPY infra/spark/conf/spark-defaults.conf "$SPARK_HOME/conf"
 RUN chmod u+x /opt/spark/sbin/* && \
     chmod u+x /opt/spark/bin/*
 
+RUN mkdir -p /opt/spark/spark-events
+
 ENV PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
 
-COPY infra/spark/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY infra/spark/entrypoint.sh /opt/spark/entrypoint.sh
+RUN chmod +x /opt/spark/entrypoint.sh
 
 COPY app/app_data/landing_data.py /opt/spark/jobs/streaming_job.py
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/opt/spark/entrypoint.sh"]

@@ -1,15 +1,28 @@
 #!/bin/bash
+set -e
 
 SPARK_WORKLOAD=$1
-
 echo "SPARK_WORKLOAD: $SPARK_WORKLOAD"
 
-if [ "$SPARK_WORKLOAD" == "master" ];
-then
-  start-master.sh -p 7077
-elif [ "$SPARK_WORKLOAD" == "worker" ];
-then
-  start-worker.sh spark://spark-master:7077
-elif [ "$SPARK_WORKLOAD" == "history" ]
-then
-  start-history-server.sh
+case "$SPARK_WORKLOAD" in
+  master)
+    exec start-master.sh \
+      --host spark-master \
+      --port 7077 \
+      --webui-port 8080
+    ;;
+  worker)
+    exec start-worker.sh \
+      --host spark-worker \
+      --port 7078 \
+      --webui-port 8081 \
+      spark://spark-master:7077
+    ;;
+  history)
+    exec start-history-server.sh
+    ;;
+  *)
+    echo "Unknown workload: $SPARK_WORKLOAD"
+    exit 1
+    ;;
+esac
