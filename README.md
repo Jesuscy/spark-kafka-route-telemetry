@@ -32,6 +32,6 @@ Para evitar los altos costos del procesamiento de datos en streaming en la nube,
 - Desarrollo script **PySpark** conectado al topic de Kafka, realizando lectura, procesamiento y escritura streaming  de datos sobre el contenedor de laging autorizado mediante **service principal**.
 - En la versión Web App desarrollo de **endpoints** con **FastAPI**.
 
-  ## Por desarrollar
+## Por desarrollar
 - Web Frontend, WebSocket.
 - Desplegar contenedor con imagen de **Airflow** que diariamente ejecute un procesamiento de datos llevando datos de **langing** a **staging** y **common**.
