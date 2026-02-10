@@ -23,3 +23,15 @@ Para evitar los altos costos del procesamiento de datos en streaming en la nube,
 4. Los datos quedan listos para ser utilizados en análisis posteriores o integrados en dashboards.
 
 <img width="1185" height="578" alt="image" src="https://github.com/user-attachments/assets/1e8dc6b0-dea1-4754-a3a3-8bd6fb719de5" />
+
+## Cuaderno de desarrollo:
+- Desarrollo scripts, realizar la petición y simular el recorrido de la ruta.
+- Creación de las imagenes de los servicios de **Kafka** y **Spark** en **Docker**, desarrollo de un Dockerfile para spark, instalando las dependencias de **Azure** y **Kafka**.
+- Creación de una Storage Account y contendores langing, staging, common.
+- Creación de un **App Registration** con rol de Storage Account Contributor permisos rwx sobre el contendor de landing.
+- Desarrollo script **PySpark** conectado al topic de Kafka, realizando lectura, procesamiento y escritura streaming  de datos sobre el contenedor de laging autorizado mediante **service principal**.
+- En la versión Web App desarrollo de **endpoints** con **FastAPI**.
+
+  ## Por desarrollar
+- Web Frontend, WebSocket.
+- Desplegar contenedor con imagen de **Airflow** que diariamente ejecute un procesamiento de datos llevando datos de **langing** a **staging** y **common**.
