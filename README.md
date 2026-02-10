@@ -22,4 +22,4 @@ Para evitar los altos costos del procesamiento de datos en streaming en la nube,
 3. Spark consume estos eventos en streaming, los procesa y los guarda en el Azure Data Lake.
 4. Los datos quedan listos para ser utilizados en análisis posteriores o integrados en dashboards.
 
-![Diseño sin título](https://github.com/user-attachments/assets/ef6b25b5-e7bd-4022-9430-1867a1a6858e)
+<img width="1185" height="578" alt="image" src="https://github.com/user-attachments/assets/1e8dc6b0-dea1-4754-a3a3-8bd6fb719de5" />
