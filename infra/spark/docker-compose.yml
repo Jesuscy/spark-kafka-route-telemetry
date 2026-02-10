@@ -10,7 +10,7 @@ services:
       
     image: da-spark-image
       #Paso el entrypoint.sh con el comando levantar el master.
-    entrypoint: ["./entrypoint.sh", "master"]
+    entrypoint: ["/opt/spark/entrypoint.sh", "master"]
     networks:
       - infra_net
     healthcheck:
@@ -32,7 +32,7 @@ services:
     container_name: da-spark-history
     image: da-spark-image
       #Paso el entrypoint.sh con el comando levantar el history server.
-    entrypoint: ["./entrypoint.sh", "history"]
+    entrypoint: ["/opt/spark/entrypoint.sh", "history"]
     depends_on:
       - spark-master
     networks:
@@ -47,7 +47,7 @@ services:
   spark-worker:
     image: da-spark-image
       #Paso el entrypoint.sh con el comando levantar el worker.
-    entrypoint: ["./entrypoint.sh", "worker"]
+    entrypoint: ["/opt/spark/entrypoint.sh", "worker"]
     depends_on:
       - spark-master
     networks:
