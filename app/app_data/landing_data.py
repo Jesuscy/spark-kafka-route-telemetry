@@ -34,7 +34,7 @@ def streaming_writing():
     .format("kafka") \
     .option("kafka.bootstrap.servers", os.getenv('KAFKA_BOOTSTRAP_SERVERS')) \
     .option("subscribe", "vehicle_positions") \
-    .option("startingOffsets", "latest") \
+    .option("startingOffsets", "earliest") \
     .load()
 
   schema = StructType([
