@@ -33,7 +33,9 @@ RUN curl -fL https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-1
     curl -fL https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0-10_2.12/3.3.1/spark-token-provider-kafka-0-10_2.12-3.3.1.jar \
     -o $SPARK_HOME/jars/spark-token-provider-kafka-0-10_2.12-3.3.1.jar && \
     curl -fL https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.2.0/kafka-clients-3.2.0.jar \
-    -o $SPARK_HOME/jars/kafka-clients-3.2.0.jar
+    -o $SPARK_HOME/jars/kafka-clients-3.2.0.jar && \
+    curl -fL https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.11.1/commons-pool2-2.11.1.jar \
+    -o $SPARK_HOME/jars/commons-pool2-2.11.1.jar
 
     # Dependencias Azure ADLS Gen2 
 RUN curl -fL https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-azure/3.3.1/hadoop-azure-3.3.1.jar \

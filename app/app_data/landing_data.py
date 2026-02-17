@@ -35,23 +35,25 @@ def streaming_writing():
     .option("kafka.bootstrap.servers", os.getenv('KAFKA_BOOTSTRAP_SERVERS')) \
     .option("subscribe", "vehicle_positions") \
     .option("startingOffsets", "earliest") \
+    .option("failOnDataLoss", "false") \
     .load()
 
   schema = StructType([
-      StructField("id", StringType(), True),
-      StructField("lat", StringType(), True),
-      StructField("lon", StringType(), True),
-      StructField("timestamp", StringType(), True)
+      StructField("vehicle_id", StringType(), True),
+      StructField("model", StringType(), True),
+      StructField("latitude", StringType(), True),
+      StructField("longitude", StringType(), True),
+      StructField("data_timestamp", StringType(), True),
+      StructField("progress", StringType(), True)
   ])
 
-
-  parsed_df = df.select(col("key").cast("string"),     
+  parsed_df = df.select(col("key").cast("string"),
                       from_json(col("value").cast("string"), schema).alias("data")
                       ).select("key", "data.*")
-    
+
   query = parsed_df.writeStream \
       .format("parquet") \
-      .partitionBy("id","timestamp") \
+      .partitionBy("vehicle_id") \
       .option("path", f"abfss://trips-info-container-landing@{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net/data/") \
       .option("checkpointLocation", f"abfss://trips-info-container-landing@{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net/checkpoints/positions") \
       .outputMode("append") \
