@@ -4,5 +4,6 @@ pyarrow
 numpy
 pyspark==3.4.0
 numpy
+requests
 requests-cache
 python-dotenv
