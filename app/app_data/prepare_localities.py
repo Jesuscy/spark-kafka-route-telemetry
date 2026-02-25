@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv('.env')
 
 ADLS_STATIC_PATH = (
-    f"abfss://trips-info-container-staging@{os.getenv("STORAGE_ACCOUNT_NAME")}.dfs.core.windows.net/static/"
+    f"abfss://trips-info-container-staging@{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net/static/"
     f"localities_spain.parquet"
 )
 
@@ -125,11 +125,11 @@ def upload_to_adls(df: pd.DataFrame, spark: SparkSession):
 def spark_connection():
     return (
         SparkSession.builder.appName("prepare_localities")
-        .config(f"spark.hadoop.fs.azure.account.auth.type.{os.getenv("STORAGE_ACCOUNT_NAME")}.dfs.core.windows.net","OAuth",)
-        .config(f"spark.hadoop.fs.azure.account.oauth.provider.type.{os.getenv("STORAGE_ACCOUNT_NAME")}.dfs.core.windows.net","org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",)
-        .config(f"spark.hadoop.fs.azure.account.oauth2.client.id.{os.getenv("STORAGE_ACCOUNT_NAME")}.dfs.core.windows.net",os.getenv("CLIENT_ID"),)
-        .config(f"spark.hadoop.fs.azure.account.oauth2.client.secret.{os.getenv("STORAGE_ACCOUNT_NAME")}.dfs.core.windows.net",os.getenv("CLIENT_SECRET"),)
-        .config(f"spark.hadoop.fs.azure.account.oauth2.client.endpoint.{os.getenv("STORAGE_ACCOUNT_NAME")}.dfs.core.windows.net",f"https://login.microsoftonline.com/{os.getenv('TENANT_ID')}/oauth2/token",)
+        .config(f"spark.hadoop.fs.azure.account.auth.type.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net","OAuth",)
+        .config(f"spark.hadoop.fs.azure.account.oauth.provider.type.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net","org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",)
+        .config(f"spark.hadoop.fs.azure.account.oauth2.client.id.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net",os.getenv("CLIENT_ID"),)
+        .config(f"spark.hadoop.fs.azure.account.oauth2.client.secret.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net",os.getenv("CLIENT_SECRET"),)
+        .config(f"spark.hadoop.fs.azure.account.oauth2.client.endpoint.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net",f"https://login.microsoftonline.com/{os.getenv('TENANT_ID')}/oauth2/token",)
         .getOrCreate()
     )
 
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     localities_df = download_localities(admin2_map)
 
     localities_df.to_parquet("localities_spain.parquet", index=False)
-    print(f"Parquet local guardado: {"localities_spain.parquet"}")
+    print(f"Parquet local guardado: {'localities_spain.parquet'}")
     print(localities_df.head(5).to_string())
 
     spark = spark_connection()

@@ -22,7 +22,7 @@ def spark_conection():
   .config(f"spark.hadoop.fs.azure.account.oauth2.client.id.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net", os.getenv("CLIENT_ID")) \
   .config(f"spark.hadoop.fs.azure.account.oauth2.client.secret.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net", os.getenv("CLIENT_SECRET")) \
   .config(f"spark.hadoop.fs.azure.account.oauth2.client.endpoint.{os.getenv('STORAGE_ACCOUNT_NAME')}.dfs.core.windows.net",  f"https://login.microsoftonline.com/{os.getenv('TENANT_ID')}/oauth2/token") \
-    .getOrCreate()
+    .getOrCreate()    
   
   return spark
 
