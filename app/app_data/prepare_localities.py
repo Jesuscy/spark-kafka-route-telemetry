@@ -103,9 +103,9 @@ def download_localities(admin2_map: dict):
     df["lon"] = pd.to_numeric(df["lon"], errors="coerce")
     df = df.dropna(subset=["lat", "lon"])
 
-    #Del diccionario de provincias me creo una columna nueva con el nombre de la provincia, si está se pone como desconocida.
+    #Del diccionario de provincias me creo una columna nueva con el nombre de la provincia, si no está se pone como desconocida.
     df["province"] = df.apply(
-        lambda row: admin2_map.get(f"ES.{row['admin2_code']}", "Desconocida"),
+        lambda row: admin2_map.get(f"ES.{row['admin1_code']}.{row['admin2_code']}", "Desconocida"),
         axis=1,
     )
     #Del de comunidades lo mismo pero con la columna admin1_code.

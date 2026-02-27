@@ -69,6 +69,7 @@ ENV PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
 COPY infra/spark/entrypoint.sh /opt/spark/entrypoint.sh
 RUN chmod +x /opt/spark/entrypoint.sh
 
+COPY app/app_data/landing_data.py /opt/spark/jobs/landing_data.py
 COPY app/app_data/landing_to_staging.py /opt/spark/jobs/landing_to_staging.py
 COPY app/app_data/landing_to_staging_batch.py /opt/spark/jobs/landing_to_staging_batch.py
 COPY app/app_data/prepare_localities.py /opt/spark/jobs/prepare_localities.py

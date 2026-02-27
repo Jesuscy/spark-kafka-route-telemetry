@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,23 +17,17 @@ class Route:
 
     def route_request(self):
 
-        url = (f"{os.getenv("API_URL")}"
+        url = (f"{os.getenv('API_URL')}"
             f"{self.start_lat},{self.start_lon};{self.end_lat},{self.end_lon}"
             f"?overview=full&geometries=geojson"
         )
 
         try:
-            # response = requests.get(url)
-            # if response.status_code != 200:
-            #     raise Exception(f"Error en la llamada: {response.status_code}")
-            # data = response.json()
-            # return json_response
+            response = requests.get(url)
+            if response.status_code != 200:
+                raise Exception(f"Error en la llamada: {response.status_code}")
+            json_response = response.json()
 
-
-            with open(f"response_example.json","r") as response:
-                response = response.read()
-                json_response = json.loads(response)
-                
             return json_response
 
         except Exception as e:
